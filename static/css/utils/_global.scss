@@ -1,0 +1,31 @@
+body {
+	background: #eeeeee;
+	font-family: "Open Sans", sans-serif;
+}
+
+a {
+	color: inherit;
+
+	&:hover {
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
+.sp-100 {
+	padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.sp-80 {
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+
+.sp-top-80 {
+	padding-top: 80px;
+}
+
+.sp-bottom-100 {
+	padding-bottom: 100px;
+}

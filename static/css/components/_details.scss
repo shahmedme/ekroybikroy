@@ -1,0 +1,27 @@
+#details {
+	p,
+	small {
+		color: hsl(0, 0%, 62%);
+	}
+
+	#details-body {
+		hr {
+			margin-top: 0%;
+		}
+
+		img {
+			width: 500px;
+			object-fit: cover;
+		}
+	}
+
+	#details-user {
+		img {
+			object-fit: cover;
+			height: 150px;
+			width: 150px;
+			border-radius: 50%;
+			position: center;
+		}
+	}
+}

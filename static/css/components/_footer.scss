@@ -1,0 +1,29 @@
+footer {
+	background-color: #212121;
+	color: rgba($color: #fff, $alpha: 0.7);
+
+	.footer-top {
+		.social {
+			li {
+				display: inline;
+				margin-right: 10px;
+			}
+		}
+
+		.download {
+			img {
+				width: 150px;
+				margin-left: -11px;
+			}
+		}
+	}
+
+	.footer-bottom {
+		border-top: 1px solid rgba($color: #fff, $alpha: 0.7);
+		padding: 20px;
+	}
+
+	p {
+		margin: 0px;
+	}
+}

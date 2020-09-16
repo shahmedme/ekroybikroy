@@ -1,9 +1,85 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block meta %}
 <title>Home - Ebazar Clone</title>
 {% endblock %}
 
 {% block body %}
-<h1>this is homepage</h1>
+<section class="hero sp-80">
+    <div class="container-fluid">
+        <div class="hero-content-wrapper">
+            <h1 class="title">The largest marketplace in Bangladesh!</h1>
+            <p class="subtitle">Buy and sell everything from used cars to mobile phones and
+                computers, <br> or search for property, jobs and more in Bangladesh!</p>
+            <div class="row">
+                <div class="col-md-9 mx-auto mt-4">
+                    {% include 'main/partials/search.html' %}
+                </div>
+            </div>
+        </div>
+        <div class="featured-category mt-4 pt-2 mx-5">
+            <div class="d-flex justify-content-between">
+                {% for category in categories %}
+                {% if forloop.counter0 < 9 %}
+                <a href="/posts/?category={{ category.id }}">
+                    <div class="featured-category-item">
+                        <div class="img">
+                            <img src="{% get_media_prefix %}{{ category.thumbnail }}" alt="category" class="img-fluid">
+                        </div>
+                        <p>{{ category.name }}</p>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-4 categories">
+    <div class="container">
+        <h5 class="title">All Categories</h5>
+        <div class="row no-gutters">
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="p-4 item">
+                    <div class="row">
+                        <div class="col-2 img-wrapper">
+                            <img src="{% get_media_prefix %}{{ category.thumbnail }}" alt="clothings" class="img-fluid">
+                        </div>
+                        <div class="col-10 sub-categories">
+                            <h6 class="subtitle"><a href="/posts/?category={{ category.id }}">{{ category.name }}</a>
+                            </h6>
+                            <ul class="list-unstyled m-0">
+                                {% for sub_category in category.subcategory_set.all %}
+                                <li><a href="#">{{ sub_category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="sp-80 call-to-action">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <h4>Do you have something to sell?</h4>
+                <p>Post your ad on ebaazar.com.bd/</p>
+                <a href="#" class="btn ylw-post-btn">
+                    Post an ad now!
+                </a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://image.freepik.com/free-vector/add-cart-concept-illustration_114360-1445.jpg" alt=""
+                    class="img-fluid" style="width: 300px">
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

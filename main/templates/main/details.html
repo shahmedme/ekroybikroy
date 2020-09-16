@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>{{ product.location }} | Ebazar Clone</title>
+{% endblock %}
+
+{% block body %}
+<div class="wrapper py-1">
+
+    <div class="container-fluid">
+        <div class="d-flex flex-row py-2" id="details">
+            <div class="col-lg-8" id="details-body">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="d-flex flex-row m-1">
+                            <div>
+                                <h5 style="font-weight: 800;">{{ product.title }}</h5>
+                                <small><span class="mr-4"><i
+                                            class="fas fa-map-marker-alt mr-1"></i>{{ product.location }}</span>
+                                    <span class="mr-4"><i class="far fa-clock mr-1"></i>{{ product.timestamp }}</span>
+                                    <span><i class="far fa-eye mr-1"></i>{{ product.views }}</span></small>
+                            </div>
+                            <div class="ml-auto">
+                                <small class="text-red"
+                                    style="font-weight: 700; font-size: 1.5em; color: hsl(0, 88%, 68%);">Tk
+                                    {{ product.price }}</small>
+                                <p class="text-right">{% if product.is_negotiable %}Negotiable {% else %} Fixed
+                                    {% endif %}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="{% get_media_prefix %}{{ product.thumbnail }}" alt="..." class="rounded">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="d-flex flex-row m-1">
+                            <h6 style="font-weight: 800; font-size: .8em;">Condition:</h6>
+                            <small class="ml-auto" style="font-size: .9em;">{% if product.condition == 'used' %}Used
+                                {% elif product.condition == 'new' %} New {% endif %}</small>
+                        </div>
+                        <hr>
+                        <div>
+                            <h6 style="font-weight: 800;">Description:</h6>
+                            <p style='font-size: .9em; color: hsl(0, 0%, 46%);'>{{ product.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-11" id="details-user">
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="d-flex  justify-content-center">
+                            <div class="text-center">
+                                <div class="text-center">
+                                    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="">
+                                </div>
+                                <small>For sale by</small>
+                                <h6 style="font-weight: 800; font-size: .95em;">Sadiqur Hridoy</h6>
+                                <hr>
+                                <button class="btn btn-danger btn-lg mr-1"><i class="fas fa-phone mr-2"></i>
+                                    01887799444</button> <button class="btn btn-light btn-lg">View all ads</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="">
+                                <div class="alert alert-danger">
+                                    Safety Tips
+                                </div>
+                                <ul>
+                                    <li>Meet seller at a safe location</li>
+                                    <li>Check the item before you buy</li>
+                                    <li>Pay only after collecting item</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+
+
+    });
+</script>
+{% endblock %}

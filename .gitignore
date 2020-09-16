@@ -3,3 +3,5 @@
 venv
 allstaticfiles
 schema.txt
+__pycache__
+media

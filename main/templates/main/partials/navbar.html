@@ -1,1 +1,31 @@
-<h1 class="navb">this is navbar</h1>
+{% load static %}
+
+<nav class="navbar navbar-expand-lg py-3">
+    <div class='container-fluid'>
+        <a class="navbar-brand" href="/">
+            {% comment %} <img src={% static 'main/logo.png' %} alt=""> {% endcomment %}
+            Ebazar
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">All Ads <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link post-btn" href="#">Post Your Ad</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
