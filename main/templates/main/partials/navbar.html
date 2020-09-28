@@ -1,29 +1,86 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-lg py-3">
-    <div class='container-fluid'>
-        <a class="navbar-brand" href="/">
-            {% comment %} <img src={% static 'main/logo.png' %} alt=""> {% endcomment %}
-            Ebazar
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"> Ebazar </a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">All Ads <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#"
+                    >All Ads <span class="sr-only">(current)</span></a
+                    >
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    
+                    <a type="button" class="btn text-white" data-toggle="modal"  href="#" data-target="#exampleModal" >Login
+                    </a>
+
+                    <!-- pop up login  -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-keyboard="false" data-backdrop="static"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action=" {% url 'login-page' %} " method="POST">
+
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" class="form-control col-form-label-lg"
+                                                   id="exampleInputPassword1" name="p_number"
+                                                   placeholder="Phone Number"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control col-form-label-lg"
+                                                   id="exampleInputPassword1" name="password"
+                                                   placeholder="Password"/>
+                                        </div>
+
+                                       
+                                        <div class="form-group align-items-center">
+                                            <input type="submit" class="btn btn-danger btn-sm btn-block">
+
+                                        </div>
+                                        <div class="form-group d-flex justify-content-center ">
+
+                                            <small>Don't have an account? <a class="text-danger" href="{% url 'signup-page' %}">Sign
+                                                up</a></small>
+                                        </div>
+                                        <div class="from-group d-flex justify-content-center">
+
+                                            <small class="text-danger"> <a href="">Forget Password </a> </small>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link post-btn" href="#">Post Your Ad</a>
+                    <a class="nav-link post-btn" href="{% url 'add-post' %}">Post Your Ad</a>
                 </li>
             </ul>
         </div>

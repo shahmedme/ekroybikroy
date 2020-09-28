@@ -10,3 +10,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Customer_details(models.Model):
+    first_name = models.CharField(max_length=20, null=True)
+    last_name = models.CharField(max_length=20, null=True)
+    password = models.CharField(max_length=30, null=True)
+    c_password = models.CharField(max_length=30, null=True)
+
+    def __str__(self):
+        return self.first_name

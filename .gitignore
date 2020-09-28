@@ -5,3 +5,5 @@ allstaticfiles
 schema.txt
 __pycache__
 media
+env.py
+venv
