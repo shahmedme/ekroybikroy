@@ -3,19 +3,45 @@ from ckeditor.fields import RichTextField
 from account.models import Profile
 
 
-class Location(models.Model):
-    division = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-    thana = models.CharField(max_length=100)
+class Division(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.division + ',' + self.district + ',' + self.thana
+        return self.name
+
+
+class District(models.Model):
+    name = models.CharField(max_length=100)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Area(models.Model):
+    name = models.CharField(max_length=100)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Location(models.Model):
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     thumbnail = models.ImageField(
-        upload_to="main/categories", max_length="100")
+        upload_to="main/categories")
 
     def __str__(self):
         return self.name
@@ -31,11 +57,6 @@ class SubCategory(models.Model):
 
 
 class Product(models.Model):
-    CONDITION_CHOICES = [
-        ('used', 'Used'),
-        ('new', 'New')
-    ]
-
     title = models.CharField(max_length=500)
     address = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -46,7 +67,6 @@ class Product(models.Model):
     thumbnail = models.ImageField(upload_to='main/products')
     timestamp = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
-    condition = models.CharField(choices=CONDITION_CHOICES, max_length=15)
     short_desc = models.TextField()
     desc = RichTextField()
     sub_category = models.ForeignKey(

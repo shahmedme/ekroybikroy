@@ -23,27 +23,22 @@
                 </li>
 
                 {% if user.is_authenticated %}
-                        <li class="nav-item">
-                        <a class="nav-link" href="#"> hello, {{user.first_name}} </a> 
-                        </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href=""> hello, {{user.first_name}} </a>
+                    </li>
 
 
-                        <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-
-
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
-                        </li>
-                        <li class="nav-item"> <a class="nav-link" href="{% url 'login-page' %}">Login</a> </li>
-                        <li class="nav-item">
-                            <a class="nav-link post-btn" href="{% url 'add-post' %}">Post Your Ad</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'login-page' %}">Login</a> </li>
                 {% endif %}
-
-              
+                    <li class="nav-item">
+                        <a class="nav-link post-btn" href="{% url 'add-post' %}">Post Your Ad</a>
+                    </li>
             </ul>
         </div>
     </div>

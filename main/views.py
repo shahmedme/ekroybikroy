@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from main.models import *
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import auth
-from account.models import *
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.views.generic import View
+
+from main.models import *
+from account.models import *
 
 
 def home(request):
@@ -63,11 +67,58 @@ def postDetails(request, id):
 #         return redirect('/')
 
 
-def create(request):
+def add_post(request):
+    if "action" in request.GET and request.is_ajax:
+        id = request.GET.get('id').split('-')
+        if id[0] == "d":
+            districts = District.objects.filter(division_id=id[1]).values()
+            districts_list = list(districts)
+            return JsonResponse(districts_list, safe=False)
+        elif id[0] == "c":
+            areas = Area.objects.filter(city_id=id[1]).values()
+            areas_list = list(areas)
+            return JsonResponse(areas_list, safe=False)
 
-    category = Category.objects.all()
-    context = {
-        'category': category
-    }
 
-    return render(request, 'main/addposts.html', context)
+    elif request.method == "POST":
+        title = request.POST["title"]
+        category_name = request.POST["category"]
+        thumbnail = request.FILES.get("thumbnail", None)
+        price = request.POST["price"]
+        checkbox = request.POST.getlist("checkbox")
+        phone_no = request.POST["phone_no"]
+        division_city = request.POST["division-city"].split('-')
+        district_area = request.POST["district-area"]
+        address = request.POST["address"]
+        desc = request.POST["description"]
+        is_negotiable = False
+
+        if "checked" in checkbox:
+            is_negotiable = True
+
+        if division_city[0] == "d":
+            location = Location(district_id=district_area)
+            location.save()
+
+        elif division_city[0] == "c":
+            location = Location(area_id=district_area)
+            location.save()
+
+        add_post = Product(title=title, address=address, contact=phone_no, price=price, desc=desc,
+                           thumbnail=thumbnail, is_negotiable=is_negotiable, location=location, seller=request.user.profile)
+        add_post.save()
+        return redirect("/")
+
+
+
+    else:
+        categories = Category.objects.all()
+        divisions = Division.objects.all()
+        cities = City.objects.all()
+        context = {
+            'categories': categories,
+            'divisions': divisions,
+            'cities': cities
+        }
+
+        return render(request, 'main/addposts.html', context)

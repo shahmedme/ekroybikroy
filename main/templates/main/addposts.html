@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block body %}
 
@@ -9,200 +10,113 @@
                     <div class="card-title">
                         <h3><span class="text-danger">|</span> Create Ad</h3>
                     </div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="category my-3 ">
+                            <div class="col-5">
+                                <select class="custom-select my-1 mr-sm-2" name="category">
+                                    <option selected>Select category</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}"> {{ category.name }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="category my-3 ">
-                        <div class="row">
-                            <div class="col">
+                        <div class="card-body">
+                            <h5>Select Location</h5>
 
-                                   <div class="dropdown">
-                                    <a class="btn btn-white btn-xl dropdown-toggle select-dropd" href="#" role="button"
-                                       id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        Select Category |</a>
-
-                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                                        {% for cat in category %}
-                                            <option value=""> {{ cat.name }} </option>
-
+                        </div>
+                            <div class="row mx-1">
+                                <div class="col-6">
+                                    <select class="custom-select my-1 mr-sm-2" id="division" name="division-city">
+                                        <option selected>Select Division or City</option>
+                                        {% for division in divisions %}
+                                            <option value="d-{{ division.id }}"> {{ division.name }} </option>
                                         {% endfor %}
-                                    </div>
+                                        {% for city in cities %}
+                                            <option value="c-{{ city.id }}"> {{ city.name }} </option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
+                                <div class="col-6">
+                                    <select class="custom-select my-1 mr-sm-2" id="district" name="district-area" style="display:none">
 
+                                    </select>
+                                </div>
                             </div>
-                           
-                        </div>
-                    </div>
-
-
-                    <div class="col mt-3">
-                        <small>*Select <span class="text-secondary font-weight-bold">Cows</span> category to allow evaly
-                            payment option</small>
                         <hr>
 
-                    </div>
-
-                    <div class="card-body">
-                        <h5>Select Location</h5>
-
-                    </div>
-                    <div class="col-6">
-
-
-                        <div class="category">
-                            <div class="col-6">
-                                <div class="dropdown">
-                                    <a class="btn btn-white  dropdown-toggle select-dropd " href="#" role="button"
-                                       id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">Select Category | </a>
-
-                                    <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Dhaka City</a>
-                                        <a class="dropdown-item" href="#">Chittagong City</a>
-                                        <a class="dropdown-item" href="#">Barisal City</a>
-                                        <a class="dropdown-item" href="#">Khulna City</a>
-                                        <a class="dropdown-item" href="#">Sylhet City</a>
-                                        <a class="dropdown-item" href="#">Rajshahi City</a>
-                                        <a class="dropdown-item" href="#">Rangpur City</a>
-                                        <a class="dropdown-item" href="#">Maymensingh City</a>
-                                        <a class="dropdown-item" href="#"><small>DIVISION</small></a>
-                                        <a class="dropdown-item" href="#">Buisness & Study</a>
-                                        <a class="dropdown-item" href="#">Jobs</a>
-                                        <a class="dropdown-item" href="#">IT-Solution</a>
-                                        <a class="dropdown-item" href="#">Vehicles</a>
-                                        <a class="dropdown-item" href="#">Cows</a>
-                                        <a class="dropdown-item" href="#">Mobiles</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                    <hr>
-
-                    <div class="add-photos">
-                        {% comment %} adding photos  {% endcomment %}
-                        <form>
+                        <div class="add-photo">
                             <div class="form-group pl-5">
-                                <i class="far fa-image fa-4x">
-
-
-                                </i>
-                                <span><input type="file" class="form-control-file" id="exampleFormControlFile1"> </span>
-
-
+                                <i class="far fa-image fa-4x"></i>
+                                <span><input type="file" class="form-control-file" id="add-photo" name="thumbnail"> </span>
                             </div>
-
-                        </form>
+                            <hr>
+                        </div>
                         <hr>
-
-                    </div>
-
-                    <hr>
-
-                    <div class="col">
-
-                        <form action="">
+                        <div class="col">
                             <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" placeholder="Title">
+                                <input class="form-control form-control-lg" type="text" name="title" placeholder="Title">
                             </div>
-                        </form>
-
-                    </div>
-                    <!--  textfiled + negotible  -->
-
-                    <div class="form-row px-3">
-
-                        <div class="col-6">
-                            <form action="">
-                                <div class="form-group">
-                                    <input class="form-control form-control-lg" type="text" placeholder="Price">
-                                </div>
-                            </form>
                         </div>
 
-                        <div class="col-6">
-                            <div class="custom-control custom-checkbox mb-1 ml-4 pt-4">
-                                <input class="custom-control-input" id="all1" type="checkbox">
-                                <label class="custom-control-label" for="all1">
-                                    Negotiable
-                                </label>
+                        <div class="form-row px-3">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control form-control-lg" type="text" name="price" placeholder="Price">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox mb-1 ml-4 pt-4">
+                                    <input class="custom-control-input" id="all1" name="checkbox" value="checked" type="checkbox">
+                                    <label class="custom-control-label" for="all1">
+                                        Negotiable
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
 
-                    </div>
-
-
-                    <div class="col">
-
-                        <form action="">
+                        <div class="col">
                             <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" placeholder="Phone Number">
+                                <input class="form-control form-control-lg" type="text" name="phone_no" placeholder="Phone Number">
                             </div>
-                        </form>
-
-                    </div>
-                    <div class="col">
-
-                        <form action="">
+                        </div>
+                        <div class="col">
                             <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" placeholder="Address">
+                                <input class="form-control form-control-lg" type="text" name="address" placeholder="Address">
                             </div>
-                        </form>
+                        </div>
 
-                    </div>
-
-                    <!-- for description -->
-                    <div class="col">
-
-                        <form action="">
+                        <div class="col">
                             <div class="form-group">
-                                <div class="form-group">
-
-                                    <textarea class="form-control" placeholder="Description"
-                                              id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
+                                <textarea class="form-control" placeholder="Description" id="description" name="description" rows="3"></textarea>
                             </div>
-                        </form>
+                        </div>
 
-                    </div>
-
-                    <div class="col my-2">
-                        <button type="button" class="btn btn-danger text-white">Submit Ad</button>
-
-                    </div>
+                        <div class="col my-2">
+                            <button type="submit" class="btn btn-danger text-white">Submit Ad</button>
+                        </div>
+                    </form>
 
                 </div>
-
-
             </div>
             <div class="col-4">
-
-
                 <div class="card text-start mb-4 pt-3 pl-3">
-
                     <h3><span class="text-danger">|</span> Quick rules </h3>
-
                     <div class="card-body">
                         <p>All ads posted on ebaazar.com.bd must follow our rules:</p>
-
-
                         <li> Make sure you post in the correct category.</li>
                         <li> Do not post the same ad more than once or repost an ad within 7 days.</li>
                         <li> Do not upload pictures with watermarks.</li>
                         <li> Do not post ads containing multiple items unless it's a package deal.</li>
                         <li> Do not put your email or phone numbers in the title or description.</li>
-
-
                     </div>
-
                 </div>
                 <div class="card text-center ">
                     <img class="img-fluid" src="https://ebaazar.com.bd/images/biggapon_02.jpg" alt="evaly biggapon">
                 </div>
-
             </div>
         </div>
 
@@ -210,4 +124,44 @@
 
 
 {% endblock body %}
+
+
+{% block scripts %}
+
+
+<script>
+$(document).ready(function(){
+    $("#division").change(function(e){
+        e.preventDefault();
+        var id = $(this).val();
+
+        $.ajax({
+            type:'GET',
+            url:'{% url 'add-post' %}',
+            data:{
+                "action": "get-locations",
+                "id": id,
+            },
+            success: function (responses) {
+                $("#district").empty();
+                $("#district").show();
+                for(var i=0; i<responses.length; i++){
+                        $("#district").append('<option value="'+responses[i]['id']+'">'+responses[i]['name']+'</option>')
+                }                  
+            },
+            error: function (response) {
+                console.log('error')
+            }
+        })
+
+    })
+
+
+    $(document.body).click( function() {
+       
+    });
+})
+</script>
+
+{% endblock %}
 
