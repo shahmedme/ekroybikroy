@@ -34,11 +34,15 @@ a:hover {
 .form-control:focus {
   -webkit-box-shadow: none;
           box-shadow: none;
-  border-color: #00b894;
+  border-color: #099cec;
+}
+
+.h-100 {
+  height: 100%;
 }
 
 nav.navbar {
-  background-color: #00b894 !important;
+  background-color: #099cec !important;
   font-size: 14px;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
@@ -78,7 +82,7 @@ nav.navbar .post-btn {
 
 .search-area .search-btn {
   border: 0px;
-  background: #00b894;
+  background: #099cec;
   height: 100%;
   color: white;
   padding: 10px;
@@ -171,10 +175,21 @@ section.categories .item {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   margin: 7px;
+  -webkit-transition: 0.3s ease-in;
+  transition: 0.3s ease-in;
+}
+
+section.categories .item:hover {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
 }
 
 section.categories .item a {
   color: inherit;
+}
+
+section.categories .item .subc:hover {
+  color: #099cec;
 }
 
 .call-to-action {
@@ -183,7 +198,7 @@ section.categories .item a {
 
 .call-to-action .ylw-post-btn {
   background: #e5be45;
-  color: #00b894;
+  color: #099cec;
   font-weight: bold;
 }
 

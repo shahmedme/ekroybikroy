@@ -1,8 +1,8 @@
 <div class="search-area">
-    <form>
+    <form action="/search" method="GET">
         <div class="row no-gutters">
             <div class="col-md-10">
-                <input type="text" placeholder="Search Keyword" class="w-100 search-field">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search Product" class="w-100 search-field">
             </div>
             <div class="col-md-2">
                 <button class="w-100 search-btn">Search</button>
