@@ -71,7 +71,7 @@ nav.navbar .post-btn {
 
 .search-area .search-btn {
   border: 0px;
-  background: #f56565;
+  background: #00b894;
   height: 100%;
   color: white;
   padding: 10px;
@@ -200,11 +200,7 @@ section.categories .item a {
 
 .call-to-action .ylw-post-btn {
   background: #e5be45;
-  color: #984210;
+  color: #00b894;
   font-weight: bold;
-}
-
-.wow {
-  color: red;
 }
 /*# sourceMappingURL=styles.css.map */

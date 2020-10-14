@@ -1,3 +1,5 @@
+@import "../utils/variables";
+
 section.hero {
 	.hero-content-wrapper {
 		text-align: center;
@@ -62,7 +64,7 @@ section.categories {
 
 	.ylw-post-btn {
 		background: #e5be45;
-		color: #984210;
+		color: $primary-color;
 		font-weight: bold;
 	}
 }

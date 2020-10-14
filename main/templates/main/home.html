@@ -17,9 +17,9 @@
       </div>
     </div>
     <div class="featured-category mt-4 pt-2 mx-5">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-center">
         {% for category in categories %} {% if forloop.counter0 < 9 %}
-        <a href="/posts/?category={{ category.id }}">
+        <a href="/posts/?category={{ category.id }}" class="mx-2">
           <div class="featured-category-item">
             <div class="img">
               <img

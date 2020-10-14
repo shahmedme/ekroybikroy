@@ -1,3 +1,5 @@
+@import "../utils/variables";
+
 .search-area {
 	border: 15px solid #e0e0e0;
 
@@ -9,7 +11,7 @@
 
 	.search-btn {
 		border: 0px;
-		background: #f56565;
+		background: $primary-color;
 		height: 100%;
 		color: white;
 		padding: 10px;
