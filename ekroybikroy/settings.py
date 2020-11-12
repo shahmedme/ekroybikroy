@@ -17,10 +17,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
-    'notification',
-    'search',
-    'account',
+    'main.apps.MainConfig',
+    'notification.apps.NotificationConfig',
+    'search.apps.SearchConfig',
+    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -34,7 +34,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ebazar.urls'
+ROOT_URLCONF = 'ekroybikroy.urls'
 
 TEMPLATES = [
     {
@@ -52,7 +52,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ebazar.wsgi.application'
+WSGI_APPLICATION = 'ekroybikroy.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -91,14 +91,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'allstaticfiles')
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL = '/media/'
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'ekroybikroy.storage.AzureMediaStorage'
+    STATICFILES_STORAGE = 'ekroybikroy.storage.AzureStaticStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')
+    AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')
+
+    STATIC_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/'
+    MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/'
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'allstaticfiles')

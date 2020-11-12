@@ -1,8 +1,11 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block body %}
+{% block meta %}
+    <title>Create New Add</title>
+{% endblock %}
 
+{% block body %}
     <div class="container">
         <div class="row  py-4">
             <div class="col-8">
@@ -10,22 +13,26 @@
                     <div class="card-title">
                         <h3><span class="text-danger">|</span> Create Ad</h3>
                     </div>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="category my-3 ">
-                            <div class="col-5">
-                                <select class="custom-select my-1 mr-sm-2" name="category">
-                                    <option selected>Select category</option>
-                                    {% for category in categories %}
-                                        <option value="{{ category.id }}"> {{ category.name }} </option>
-                                    {% endfor %}
-                                </select>
+                        <div class="category my-3 ml-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <select class="custom-select my-1 mr-sm-2" name="category" id="category">
+                                        <option selected>Select category</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}"> {{ category.name }} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <select class="custom-select my-1 mr-sm-2" id="subcategory" name="subcategory" style="display:none"></select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="card-body">
                             <h5>Select Location</h5>
-
                         </div>
                             <div class="row mx-1">
                                 <div class="col-6">
@@ -40,9 +47,7 @@
                                     </select>
                                 </div>
                                 <div class="col-6">
-                                    <select class="custom-select my-1 mr-sm-2" id="district" name="district-area" style="display:none">
-
-                                    </select>
+                                    <select class="custom-select my-1 mr-sm-2" id="district" name="district-area" style="display:none"></select>
                                 </div>
                             </div>
                         <hr>
@@ -131,6 +136,31 @@
 
 <script>
 $(document).ready(function(){
+    $("#category").change(function(e){
+        e.preventDefault();
+        var id = $(this).val();
+
+        $.ajax({
+            type:'GET',
+            url:'{% url 'add-post' %}',
+            data:{
+                "action": "get-subcategory",
+                "id": id,
+            },
+            success: function (responses) {
+                $("#subcategory").empty();
+                $("#subcategory").show();
+                for(var i=0; i<responses.length; i++){
+                        $("#subcategory").append('<option value="'+responses[i]['id']+'">'+responses[i]['name']+'</option>')
+                }                  
+            },
+            error: function (response) {
+                console.log('error')
+            }
+        })
+
+    })
+
     $("#division").change(function(e){
         e.preventDefault();
         var id = $(this).val();

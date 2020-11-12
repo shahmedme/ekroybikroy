@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Profile
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from account.models import *
 from django.contrib import messages
 
@@ -11,14 +12,14 @@ def profile(request):
     return render(request, 'account/profile.html', context)
 
 
-def login(request):
+def login_fn(request):
     if request.method == 'POST':
         userName = request.POST['user_name']
         password = request.POST['user_password']
-        user = auth.authenticate(username=userName, password=password)
+        user = authenticate(username=userName, password=password)
 
         if user is not None:
-            auth.login(request, user)
+            login(request, user)
             return redirect('/')
         else:
             messages.info(
@@ -47,9 +48,7 @@ def signup(request):
             else:
                 user = User.objects.create_user(
                     username=user_name, email=email, password=password1, first_name=first_name, last_name=last_name)
-                user.save()
-                print('User Created')
-                return redirect('/')
+                return redirect('login-page')
         else:
             print("password not matching")
         return redirect('signup-page')
@@ -57,6 +56,6 @@ def signup(request):
         return render(request, 'account/signup.html')
 
 
-def logout(request):
-    auth.logout(request)
+def logout_fn(request):
+    logout(request)
     return redirect('/')

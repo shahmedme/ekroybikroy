@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %} {% load static %} {% block meta %}
-<title>Home - Ebazar Clone</title>
+<title>{{ site_info.name }} | {{ site_info.tagline }}</title>
 {% endblock %} {% block body %}
 <section class="hero sp-80">
   <div class="container-fluid">
@@ -22,11 +22,7 @@
         <a href="/posts/?category={{ category.id }}" class="mx-2">
           <div class="featured-category-item">
             <div class="img">
-              <img
-                src="{% get_media_prefix %}{{ category.thumbnail }}"
-                alt="category"
-                class="img-fluid"
-              />
+              <img src="{% get_media_prefix %}{{ category.thumbnail }}" alt="category" class="img-fluid" />
             </div>
             <p>{{ category.name }}</p>
           </div>
@@ -46,17 +42,11 @@
         <div class="p-4 item">
           <div class="row">
             <div class="col-2 img-wrapper">
-              <img
-                src="{% get_media_prefix %}{{ category.thumbnail }}"
-                alt="clothings"
-                class="img-fluid"
-              />
+              <img src="{% get_media_prefix %}{{ category.thumbnail }}" alt="clothings" class="img-fluid" />
             </div>
             <div class="col-10 sub-categories">
               <h6 class="subtitle">
-                <a href="/posts/?category={{ category.id }}"
-                  >{{ category.name }}</a
-                >
+                <a href="/posts/?category={{ category.id }}">{{ category.name }}</a>
               </h6>
               <ul class="list-unstyled m-0">
                 {% for sub_category in category.subcategory_set.all %}
@@ -77,16 +67,12 @@
     <div class="row align-items-center">
       <div class="col-md-6 text-center">
         <h4>Do you have something to sell?</h4>
-        <p>Post your ad on ebaazar.com.bd/</p>
-        <a href="#" class="btn ylw-post-btn"> Post an ad now! </a>
+        <p>Post your ad on ekroybikroy.com</p>
+        <a href="{% url 'add-post' %}" class="btn ylw-post-btn">Post an ad now!</a>
       </div>
       <div class="col-md-6">
-        <img
-          src="https://image.freepik.com/free-vector/add-cart-concept-illustration_114360-1445.jpg"
-          alt=""
-          class="img-fluid"
-          style="width: 300px"
-        />
+        <img src="https://image.freepik.com/free-vector/add-cart-concept-illustration_114360-1445.jpg" alt=""
+          class="img-fluid" style="width: 300px" />
       </div>
     </div>
   </div>

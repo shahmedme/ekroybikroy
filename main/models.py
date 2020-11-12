@@ -80,3 +80,15 @@ class Product(models.Model):
 class Gallery(models.Model):
     img_url = models.ImageField(upload_to='main/products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
+class SiteInfo(models.Model):
+    name = models.CharField(max_length=20)
+    tagline = models.CharField(max_length=50)
+    logo = models.ImageField(upload_to='main/sites')
+    address = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    contact = models.CharField(max_length=50)
+    facebook = models.CharField(max_length=20)
+    instagram = models.CharField(max_length=20)
+    youtube = models.CharField(max_length=20)

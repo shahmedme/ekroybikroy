@@ -11,11 +11,26 @@ from account.models import *
 
 
 def home(request):
-    all_category = Category.objects.all()
-    context = {
-        "categories": all_category
-    }
-    return render(request, 'main/home.html', context)
+    if request.method == 'GET':
+        all_category = Category.objects.all()
+        site_info = SiteInfo.objects.all()
+
+        if len(site_info) == 0:
+            return render(request, 'main/setup.html')
+        else:
+            context = {
+                "categories": all_category,
+                "site_info": site_info[0]
+            }
+            return render(request, 'main/home.html', context)
+    elif request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        contact = request.POST.get('contact')
+        SiteInfo.objects.create(name=name, email=email, address=address, contact=contact)
+        
+        return redirect('/')
 
 
 def category(request):
@@ -67,23 +82,30 @@ def postDetails(request, id):
 #         return redirect('/')
 
 
+@login_required(login_url='/login')
 def add_post(request):
     if "action" in request.GET and request.is_ajax:
-        id = request.GET.get('id').split('-')
-        if id[0] == "d":
-            districts = District.objects.filter(division_id=id[1]).values()
-            districts_list = list(districts)
-            return JsonResponse(districts_list, safe=False)
-        elif id[0] == "c":
-            areas = Area.objects.filter(city_id=id[1]).values()
-            areas_list = list(areas)
-            return JsonResponse(areas_list, safe=False)
-
+        action = request.GET.get("action")
+        if action == 'get-locations':
+            id = request.GET.get('id').split('-')
+            if id[0] == "d":
+                districts = District.objects.filter(division_id=id[1]).values()
+                districts_list = list(districts)
+                return JsonResponse(districts_list, safe=False)
+            elif id[0] == "c":
+                areas = Area.objects.filter(city_id=id[1]).values()
+                areas_list = list(areas)
+                return JsonResponse(areas_list, safe=False)
+        elif action == 'get-subcategory':
+            id = request.GET.get('id')
+            subcategories = SubCategory.objects.filter(category_id=id).values()
+            subcategory_list = list(subcategories)
+            return JsonResponse(subcategory_list, safe=False)
 
     elif request.method == "POST":
         title = request.POST["title"]
-        category_name = request.POST["category"]
-        thumbnail = request.FILES.get("thumbnail", None)
+        subcategory = SubCategory.objects.get(id=request.POST["subcategory"])
+        thumbnail = request.FILES['thumbnail']
         price = request.POST["price"]
         checkbox = request.POST.getlist("checkbox")
         phone_no = request.POST["phone_no"]
@@ -104,12 +126,10 @@ def add_post(request):
             location = Location(area_id=district_area)
             location.save()
 
-        add_post = Product(title=title, address=address, contact=phone_no, price=price, desc=desc,
+        add_post = Product(title=title, sub_category=subcategory, address=address, contact=phone_no, price=price, desc=desc,
                            thumbnail=thumbnail, is_negotiable=is_negotiable, location=location, seller=request.user.profile)
         add_post.save()
         return redirect("/")
-
-
 
     else:
         categories = Category.objects.all()

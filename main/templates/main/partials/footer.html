@@ -17,24 +17,27 @@
                 <div class="col-6 col-md-3">
                     <h5>Contact Us</h5>
                     <ul class="list-unstyled">
-                        <li>House #8 (1st Floor), Road # 14</li>
-                        <li>Email: support@evaly.com.bd</li>
-                        <li>Contact no: 09638111666</li>
+                        <li>{{ site_info.address }}</li>
+                        <li>Email: {{ site_info.email }}</li>
+                        <li>Contact no: {{ site_info.contact }}</li>
                     </ul>
                 </div>
                 <div class="col-6 col-md-3">
                     <h5>Get in Touch</h5>
                     <ul class="list-unstyled social">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="https://facebook.com/{{ site_info.facebook }}" target="_blank"><i
+                                    class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://instagram.com/{{ site_info.instagram}}" target="_blank"><i
+                                    class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://youtube.com/{{ site_info.youtube }}" target="_blank"><i
+                                    class="fab fa-youtube"></i></a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="mx-5 footer-bottom">
             <p class="text-center">
-                &copy; 2020 eTech. All rights reserved.
+                &copy; 2020 {{ site_info.name }}. All rights reserved.
             </p>
         </div>
     </div>

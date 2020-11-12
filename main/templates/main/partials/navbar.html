@@ -2,43 +2,33 @@
 
 <nav class="navbar navbar-expand-lg py-3">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/"> Ebazar </a>
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-        >
+        <a class="navbar-brand" href="/">Ekroybikroy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"
-                    >All Ads <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">All Ads<span class="sr-only">(current)</span></a>
                 </li>
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                    <a class="nav-link" href=""> hello, {{user.first_name}} </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <li class="nav-item">
                         <a class="nav-link" href="#"><i class="far fa-bell"></i></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""> hello, {{user.first_name}} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
                     <li class="nav-item"> <a class="nav-link" href="{% url 'login-page' %}">Login</a> </li>
                 {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link post-btn" href="{% url 'add-post' %}">Post Your Ad</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link post-btn" href="{% url 'add-post' %}">Post Your Ad</a>
+                </li>
             </ul>
         </div>
     </div>
