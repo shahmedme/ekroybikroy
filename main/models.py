@@ -57,12 +57,18 @@ class SubCategory(models.Model):
 
 
 class Product(models.Model):
+    CONDITION_CHOICES = [
+        ('used', 'Used'),
+        ('new', 'New')
+    ]
+
     title = models.CharField(max_length=500)
     address = models.CharField(max_length=200)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     contact = models.CharField(max_length=50)
     slug = models.SlugField(blank=True)
     price = models.FloatField()
+    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     is_negotiable = models.BooleanField(default=False)
     thumbnail = models.ImageField(upload_to='main/products')
     timestamp = models.DateTimeField(auto_now_add=True)

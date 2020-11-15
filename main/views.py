@@ -23,7 +23,7 @@ def home(request):
 def category(request):
     if 'sub_category' in request.GET:
         sub_category_id = request.GET['sub_category']
-        all_product = Product.objects.filter(sub_category_id=sub_category_id)
+        all_product = Product.objects.filter(sub_category_id=sub_category_id).order_by('-timestamp')
         context = {
             "products": all_product
         }
@@ -33,7 +33,7 @@ def category(request):
         category_id = request.GET['category']
         category = Category.objects.get(id=category_id)
         all_product = Product.objects.filter(
-            sub_category__category__id=category_id)
+            sub_category__category__id=category_id).order_by('-timestamp')
         context = {
             "products": all_product,
             "category": category
