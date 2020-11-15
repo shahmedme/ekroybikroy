@@ -13,6 +13,8 @@
     {% endblock %}
 </head>
 
+{% if site_info %}
+
 <body>
     {% include 'main/partials/navbar.html' %}
 
@@ -26,5 +28,8 @@
     {% block scripts %}
     {% endblock %}
 </body>
+{% else %}
+{% include 'main/setup.html' %}
+{% endif %}
 
 </html>

@@ -5,5 +5,6 @@ WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
+EXPOSE 8000
 RUN python manage.py collectstatic --noinput
-CMD gunicorn ebazar.wsgi:application --bind 0.0.0.0:8000
+CMD gunicorn ekroybikroy.wsgi:application --bind 0.0.0.0:8000

@@ -13,24 +13,11 @@ from account.models import *
 def home(request):
     if request.method == 'GET':
         all_category = Category.objects.all()
-        site_info = SiteInfo.objects.all()
 
-        if len(site_info) == 0:
-            return render(request, 'main/setup.html')
-        else:
-            context = {
-                "categories": all_category,
-                "site_info": site_info[0]
-            }
-            return render(request, 'main/home.html', context)
-    elif request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        address = request.POST.get('address')
-        contact = request.POST.get('contact')
-        SiteInfo.objects.create(name=name, email=email, address=address, contact=contact)
-        
-        return redirect('/')
+        context = {
+            "categories": all_category,
+        }
+        return render(request, 'main/home.html', context)
 
 
 def category(request):
@@ -142,3 +129,16 @@ def add_post(request):
         }
 
         return render(request, 'main/addposts.html', context)
+
+
+def setup_site(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        tagline = request.POST.get('tagline')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        contact = request.POST.get('contact')
+        SiteInfo.objects.create(name=name, tagline=tagline, email=email,
+                                address=address, contact=contact)
+
+        return redirect('/')

@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body>
-    <h1>Setup Page</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="name" class="form-control" placeholder="Site Name">
-        <input type="text" name="email" class="form-control" placeholder="Site Email">
-        <input type="text" name="address" class="form-control" placeholder="Site Address">
-        <input type="text" name="contact" class="form-control" placeholder="Site Contact">
-        <input type="submit" class="btn btn-primary">
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto py-5">
+                <h1>Setup Page</h1>
+                <form method="post" action={% url 'setup-site' %}>
+                    {% csrf_token %}
+                    <input type="text" name="name" class="form-control mt-2" placeholder="Site Name">
+                    <input type="text" name="tagline" class="form-control mt-2" placeholder="Site Tagline">
+                    <input type="text" name="email" class="form-control mt-2" placeholder="Site Email">
+                    <input type="text" name="address" class="form-control mt-2" placeholder="Site Address">
+                    <input type="text" name="contact" class="form-control mt-2" placeholder="Site Contact">
+                    <input type="submit" class="btn btn-primary mt-2">
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
-</html>

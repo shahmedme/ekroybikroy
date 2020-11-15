@@ -47,6 +47,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.get_current_year_to_context',
+                'main.context_processors.get_site_info',
             ],
         },
     },
@@ -87,9 +89,11 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'allstaticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -97,15 +101,13 @@ STATICFILES_DIRS = [
 
 if not DEBUG:
     DEFAULT_FILE_STORAGE = 'ekroybikroy.storage.AzureMediaStorage'
-    STATICFILES_STORAGE = 'ekroybikroy.storage.AzureStaticStorage'
+    # STATICFILES_STORAGE = 'ekroybikroy.storage.AzureStaticStorage'
 
     AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')
     AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')
 
-    STATIC_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/'
+    # STATIC_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/'
     MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/'
 else:
-    STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    STATIC_ROOT = os.path.join(BASE_DIR, 'allstaticfiles')
