@@ -1,41 +1,22 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 from account.models import Profile
 
 
-class Division(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class District(models.Model):
-    name = models.CharField(max_length=100)
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-
-class City(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Area(models.Model):
-    name = models.CharField(max_length=100)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-
 class Location(models.Model):
-    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True, blank=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)
+    LOCATION_CHOICES = [
+        ('division', 'Division'),
+        ('district', 'District'),
+        ('thana', 'Thana'),
+        ('city', 'City'),
+    ]
+
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=LOCATION_CHOICES)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Category(models.Model):
@@ -63,29 +44,31 @@ class Product(models.Model):
     ]
 
     title = models.CharField(max_length=500)
-    address = models.CharField(max_length=200)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    contact = models.CharField(max_length=50)
     slug = models.SlugField(blank=True)
+    description = models.TextField()
     price = models.FloatField()
-    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     is_negotiable = models.BooleanField(default=False)
-    thumbnail = models.ImageField(upload_to='main/products')
-    timestamp = models.DateTimeField(auto_now_add=True)
+    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
+    contact = models.CharField(max_length=50)
     views = models.IntegerField(default=0)
-    short_desc = models.TextField()
-    desc = RichTextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     sub_category = models.ForeignKey(
         SubCategory, on_delete=models.SET_NULL, null=True)
-    seller = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
 
 
-class Gallery(models.Model):
-    img_url = models.ImageField(upload_to='main/products')
+class Photo(models.Model):
+    file = models.ImageField(upload_to='main/products')
+    is_primary = models.BooleanField(default=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.title
 
 
 class SiteInfo(models.Model):

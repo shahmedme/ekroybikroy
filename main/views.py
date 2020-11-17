@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.db.models import Q
 from django.views.generic import View
 
 from main.models import *
@@ -23,7 +24,7 @@ def home(request):
 def category(request):
     if 'sub_category' in request.GET:
         sub_category_id = request.GET['sub_category']
-        all_product = Product.objects.filter(sub_category_id=sub_category_id).order_by('-timestamp')
+        all_product = Product.objects.filter(sub_category_id=sub_category_id).order_by('-created_at')
         context = {
             "products": all_product
         }
@@ -33,7 +34,7 @@ def category(request):
         category_id = request.GET['category']
         category = Category.objects.get(id=category_id)
         all_product = Product.objects.filter(
-            sub_category__category__id=category_id).order_by('-timestamp')
+            sub_category__category__id=category_id).order_by('-created_at')
         context = {
             "products": all_product,
             "category": category
@@ -70,62 +71,57 @@ def postDetails(request, id):
 
 
 @login_required(login_url='/login')
+def action_handler(request):
+    action = request.GET.get('action')
+
+    if action == 'get-subcategory':
+        category_id = request.GET.get('id')
+        subcategories = SubCategory.objects.filter(category_id=category_id)
+        subcategory_list = list(subcategories.values())
+
+        return JsonResponse(subcategory_list, safe=False)
+
+    elif action == 'get-areas':
+        location_id = request.GET.get('id')
+        areas = Location.objects.filter(parent_id=location_id)
+        area_list = list(areas.values())
+
+        return JsonResponse(area_list, safe=False)
+
+
+@login_required(login_url='/login')
 def add_post(request):
-    if "action" in request.GET and request.is_ajax:
-        action = request.GET.get("action")
-        if action == 'get-locations':
-            id = request.GET.get('id').split('-')
-            if id[0] == "d":
-                districts = District.objects.filter(division_id=id[1]).values()
-                districts_list = list(districts)
-                return JsonResponse(districts_list, safe=False)
-            elif id[0] == "c":
-                areas = Area.objects.filter(city_id=id[1]).values()
-                areas_list = list(areas)
-                return JsonResponse(areas_list, safe=False)
-        elif action == 'get-subcategory':
-            id = request.GET.get('id')
-            subcategories = SubCategory.objects.filter(category_id=id).values()
-            subcategory_list = list(subcategories)
-            return JsonResponse(subcategory_list, safe=False)
-
-    elif request.method == "POST":
+    if request.method == "POST":
         title = request.POST["title"]
-        subcategory = SubCategory.objects.get(id=request.POST["subcategory"])
-        thumbnail = request.FILES['thumbnail']
+        description = request.POST["description"]
         price = request.POST["price"]
-        checkbox = request.POST.getlist("checkbox")
-        phone_no = request.POST["phone_no"]
-        division_city = request.POST["division-city"].split('-')
-        district_area = request.POST["district-area"]
-        address = request.POST["address"]
-        desc = request.POST["description"]
         is_negotiable = False
+        negotiable_list = request.POST.getlist("checkbox")
+        condition = request.POST['condition']
+        photos = request.FILES.getlist('files')
+        subcategory = SubCategory.objects.get(id=request.POST["subcategory"])
 
-        if "checked" in checkbox:
+        phone = request.POST["phone"]
+        location = Location.objects.get(id=request.POST["area"])
+
+        if "checked" in negotiable_list:
             is_negotiable = True
 
-        if division_city[0] == "d":
-            location = Location(district_id=district_area)
-            location.save()
-
-        elif division_city[0] == "c":
-            location = Location(area_id=district_area)
-            location.save()
-
-        add_post = Product(title=title, sub_category=subcategory, address=address, contact=phone_no, price=price, desc=desc,
-                           thumbnail=thumbnail, is_negotiable=is_negotiable, location=location, seller=request.user.profile)
-        add_post.save()
+        product = Product.objects.create(title=title, sub_category=subcategory, condition=condition, contact=phone, price=price, description=description,
+                        is_negotiable=is_negotiable, location=location, seller=request.user)
+        
+        is_primary = True
+        for photo in photos:
+            Photo.objects.create(file=photo, product=product, is_primary=is_primary)
+            is_primary = False
         return redirect("/")
 
     else:
         categories = Category.objects.all()
-        divisions = Division.objects.all()
-        cities = City.objects.all()
+        locations = Location.objects.filter(Q(type="city") | Q(type="division")).distinct()
         context = {
             'categories': categories,
-            'divisions': divisions,
-            'cities': cities
+            'locations': locations,
         }
 
         return render(request, 'main/addposts.html', context)

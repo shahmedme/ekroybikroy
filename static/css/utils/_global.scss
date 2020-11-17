@@ -1,7 +1,9 @@
+@import "variables";
+
 body {
 	background: #eeeeee;
 	font-family: "Open Sans", sans-serif;
-	// overflow-y: hidden;
+	font-family: $primary-font;
 }
 
 a {
@@ -29,4 +31,11 @@ a {
 
 .sp-bottom-100 {
 	padding-bottom: 100px;
+}
+
+.form-control {
+	&:focus {
+		box-shadow: none;
+		border-color: $primary-color;
+	}
 }

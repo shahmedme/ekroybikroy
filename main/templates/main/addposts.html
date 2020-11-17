@@ -2,196 +2,289 @@
 {% load static %}
 
 {% block meta %}
-    <title>Create New Add</title>
+<title>Post New Ad | {{ site_info.name }}</title>
+{% endblock %}
+
+{% block styles %}
+<style>
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .pip {
+        display: inline-block;
+        margin-right: 10px;
+        width: 100px;
+        height: 80px;
+        position: relative;
+    }
+
+    .remove {
+        cursor: pointer;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        font-size: 12px;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row  py-4">
-            <div class="col-8">
-                <div class="card py-4 px-3 c-shadow">
-                    <div class="card-title">
-                        <h3><span class="text-danger">|</span> Create Ad</h3>
-                    </div>
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="category my-3 ml-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <select class="custom-select my-1 mr-sm-2" name="category" id="category">
-                                        <option selected>Select category</option>
-                                        {% for category in categories %}
-                                            <option value="{{ category.id }}"> {{ category.name }} </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <select class="custom-select my-1 mr-sm-2" id="subcategory" name="subcategory" style="display:none"></select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <h5>Select Location</h5>
-                        </div>
-                            <div class="row mx-1">
-                                <div class="col-6">
-                                    <select class="custom-select my-1 mr-sm-2" id="division" name="division-city">
-                                        <option selected>Select Division or City</option>
-                                        {% for division in divisions %}
-                                            <option value="d-{{ division.id }}"> {{ division.name }} </option>
-                                        {% endfor %}
-                                        {% for city in cities %}
-                                            <option value="c-{{ city.id }}"> {{ city.name }} </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <select class="custom-select my-1 mr-sm-2" id="district" name="district-area" style="display:none"></select>
-                                </div>
-                            </div>
+<div class="container add-post-area">
+    <div class="row py-4">
+        <div class="col-8">
+            <div class="card c-shadow">
+                <div class="card-title">
+                    <h5 style="font-weight: 600;" class="m-0">Post a Free Ad</h5>
+                </div>
+                <form method="POST" enctype="multipart/form-data" class="px-4">
+                    {% csrf_token %}
+                    <div class="pt-4">
+                        <h6><i class="fas fa-box-open mr-2"></i>Product Information</h6>
                         <hr>
-
-                        <div class="add-photo">
-                            <div class="form-group pl-5">
-                                <i class="far fa-image fa-4x"></i>
-                                <span><input type="file" class="form-control-file" id="add-photo" name="thumbnail"> </span>
-                            </div>
-                            <hr>
-                        </div>
-                        <hr>
-                        <div class="col">
-                            <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" name="title" placeholder="Title">
-                            </div>
-                        </div>
-
-                        <div class="form-row px-3">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <input class="form-control form-control-lg" type="text" name="price" placeholder="Price">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="custom-control custom-checkbox mb-1 ml-4 pt-4">
-                                    <input class="custom-control-input" id="all1" name="checkbox" value="checked" type="checkbox">
-                                    <label class="custom-control-label" for="all1">
-                                        Negotiable
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col">
-                            <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" name="phone_no" placeholder="Phone Number">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input class="form-control form-control-lg" type="text" name="address" placeholder="Address">
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Description" id="description" name="description" rows="3"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="col my-2">
-                            <button type="submit" class="btn btn-danger text-white">Submit Ad</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card text-start mb-4 pt-3 pl-3">
-                    <h3><span class="text-danger">|</span> Quick rules </h3>
-                    <div class="card-body">
-                        <p>All ads posted on ebaazar.com.bd must follow our rules:</p>
-                        <li> Make sure you post in the correct category.</li>
-                        <li> Do not post the same ad more than once or repost an ad within 7 days.</li>
-                        <li> Do not upload pictures with watermarks.</li>
-                        <li> Do not post ads containing multiple items unless it's a package deal.</li>
-                        <li> Do not put your email or phone numbers in the title or description.</li>
                     </div>
-                </div>
-                <div class="card text-center ">
-                    <img class="img-fluid" src="https://ebaazar.com.bd/images/biggapon_02.jpg" alt="evaly biggapon">
-                </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="category" class="col-sm-2 col-form-label text-right">Category</label>
+                        <div class="col-sm-9">
+                            <select name="category" id="category" class="form-control">
+                                <option>Select a Category</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="subcategory-wrapper">
+                        <div class="form-group row justify-content-center mb-1">
+                            <label for="subcategory" class="col-sm-2 col-form-label text-right">Sub Category</label>
+                            <div class="col-sm-9">
+                                <select name="subcategory" id="subcategory" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="title" class="col-sm-2 col-form-label text-right">Title</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="title" placeholder="Title" id="title" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="description" class="col-sm-2 col-form-label text-right">Description</label>
+                        <div class="col-sm-9">
+                            <textarea name="description" rows="3" placeholder="Description"
+                                class="form-control w-100" id="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="Price" class="col-sm-2 col-form-label text-right">Price</label>
+                        <div class="col-sm-9">
+                            <div class="form-row align-items-center">
+                                <div class="col-8">
+                                    <input type="text" name="price" placeholder="Price" id="price" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <div class="custom-control custom-checkbox ml-3">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck"
+                                            name="example1">
+                                        <label class="custom-control-label" for="customCheck">Negotiable</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="files" class="col-sm-2 col-form-label text-right">Add Photo</label>
+                        <div class="col-sm-9">
+                            <div class="d-flex align-items-center my-2" id="file-area">
+                                <input type="file" id="files" name="files" class="d-none" multiple />
+                                <label for="files" id="add-photo-icon" class="d-inline-block"><i
+                                        class="far fa-image fa-4x"></i></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row justify-content-center mb-1">
+                        <label for="condition" class="col-sm-2 col-form-label text-right">Condition</label>
+                        <div class="col-sm-9">
+                            <select name="condition" id="condition" class="form-control">
+                                <option value="used">Used</option>
+                                <option value="new">New</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="py-2"></div>
+                    <div class="pt-4">
+                        <h6><i class="fas fa-user mr-2"></i>Seller Information</h6>
+                        <hr>
+                        <div class="form-group row justify-content-center mb-1">
+                            <label for="name" class="col-sm-2 col-form-label text-right">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" value="{{ user.first_name }} {{ user.last_name }}"
+                                    placeholder="Name" id="name" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center mb-1">
+                            <label for="email" class="col-sm-2 col-form-label text-right">Email</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="email" value="{{ user.email }}" placeholder="Email" id="email"
+                                    class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center mb-1">
+                            <label for="phone" class="col-sm-2 col-form-label text-right">Phone</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="phone" placeholder="01XXXXXXXXX" id="phone"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-center mb-1">
+                            <label for="location" class="col-sm-2 col-form-label text-right">Location</label>
+                            <div class="col-sm-9">
+                                <select name="location" id="location" class="form-control">
+                                    <option>Select Your Area</option>
+                                    {% for location in locations %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="area-wrapper">
+                            <div class="form-group row justify-content-center mb-1">
+                                <label for="area" class="col-sm-2 col-form-label text-right">Area</label>
+                                <div class="col-sm-9">
+                                    <select name="area" id="area" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2 mr-4"><button type="submit"
+                                class="btn btn-primary">Submit Ad</button></div>
+                    </div>
+                    <div class="pt-4"></div>
+                </form>
             </div>
         </div>
-
+        <div class="col-4">
+            <div class="card text-start p-4 mb-4">
+                <h5 class="font-weight-bold"><span class="text-danger mr-2">|</span>Quick rules</h5>
+                <div class="card-body p-0">
+                    <h6 class="my-3">All ads posted on {{ site_info.name }} must follow our rules:</h6>
+                    <ul class="list-unstyled m-0 rules">
+                        <li><i class="fas fa-chevron-right mr-2"></i>Make sure you post in the correct category.</li>
+                        <li><i class="fas fa-chevron-right mr-2"></i>Do not post the same ad more than once or repost an
+                            ad within 7 days.</li>
+                        <li><i class="fas fa-chevron-right mr-2"></i>Do not upload pictures with watermarks.</li>
+                        <li><i class="fas fa-chevron-right mr-2"></i>Do not post ads containing multiple items unless
+                            it's a package deal.</li>
+                        <li><i class="fas fa-chevron-right mr-2"></i>Do not put your email or phone numbers in the title
+                            or description.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card text-center ">
+                <img class="img-fluid" src="https://ebaazar.com.bd/images/biggapon_02.jpg" alt="evaly biggapon">
+            </div>
+        </div>
     </div>
+
+</div>
 
 
 {% endblock body %}
 
 
 {% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#category").change(function (e) {
+            e.preventDefault();
+            var categoryId = $(this).val();
 
+            $.ajax({
+                type: 'GET',
+                url: '{% url "action-handler" %}',
+                data: {
+                    "action": "get-subcategory",
+                    "id": categoryId,
+                },
+                success: function (response) {
+                    $("#subcategory").empty();
+                    for (var i = 0; i < response.length; i++) {
+                        $("#subcategory").append('<option value="' + response[i]['id'] +
+                            '">' + response[i]['name'] + '</option>')
+                    }
+                    $(".subcategory-wrapper").show();
+                },
+                error: function (response) {
+                    console.log('error')
+                }
+            })
+
+        })
+
+        $("#location").change(function (e) {
+            e.preventDefault();
+            var locationId = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url "action-handler" %}',
+                data: {
+                    "action": "get-areas",
+                    "id": locationId,
+                },
+                success: function (response) {
+                    $("#area").empty();
+                    for (var i = 0; i < response.length; i++) {
+                        $("#area").append('<option value="' + response[i]['id'] +
+                            '">' + response[i]['name'] + '</option>')
+                    }
+                    $(".area-wrapper").show();
+                },
+                error: function (response) {
+                    console.log('error')
+                }
+            })
+        })
+    })
+</script>
 
 <script>
-$(document).ready(function(){
-    $("#category").change(function(e){
-        e.preventDefault();
-        var id = $(this).val();
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                    filesLength = files.length
 
-        $.ajax({
-            type:'GET',
-            url:'{% url 'add-post' %}',
-            data:{
-                "action": "get-subcategory",
-                "id": id,
-            },
-            success: function (responses) {
-                $("#subcategory").empty();
-                $("#subcategory").show();
-                for(var i=0; i<responses.length; i++){
-                        $("#subcategory").append('<option value="'+responses[i]['id']+'">'+responses[i]['name']+'</option>')
-                }                  
-            },
-            error: function (response) {
-                console.log('error')
-            }
-        })
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                            "<img class=\"imageThumb\" src=\"" + e.target.result +
+                            "\" title=\"" + file.name + "\"/>" +
+                            "<br/><span class=\"remove\"><i class=\"far fa-times-circle\"></i></span>" +
+                            "</span>").insertBefore("#files");
+                    });
+                    fileReader.readAsDataURL(f);
+                }
 
-    })
-
-    $("#division").change(function(e){
-        e.preventDefault();
-        var id = $(this).val();
-
-        $.ajax({
-            type:'GET',
-            url:'{% url 'add-post' %}',
-            data:{
-                "action": "get-locations",
-                "id": id,
-            },
-            success: function (responses) {
-                $("#district").empty();
-                $("#district").show();
-                for(var i=0; i<responses.length; i++){
-                        $("#district").append('<option value="'+responses[i]['id']+'">'+responses[i]['name']+'</option>')
-                }                  
-            },
-            error: function (response) {
-                console.log('error')
-            }
-        })
-
-    })
-
-
-    $(document.body).click( function() {
-       
+                $(document).on("click", '.remove', function () {
+                    $(this).parent(".pip").remove()
+                })
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
     });
-})
 </script>
 
 {% endblock %}
-

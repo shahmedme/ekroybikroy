@@ -1,0 +1,53 @@
+@import "../abstracts/mixins";
+
+.add-post-area {
+    .card-title {
+        padding: 15px 15px 15px 15px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12)
+    }
+
+	form {
+		input, textarea, select {
+			margin: 5px 0px;
+            display: inline-block;
+            font-size: 14px;
+
+			&::placeholder {
+				font-size: 14px;
+            }
+
+            &:focus {
+                border-color: #ced4da;
+            }
+
+			// &[type="number"] {
+			// 	@include prefix(appearance, texfield, webkit ms moz);
+			// }
+        }
+        
+        label {
+			font-weight: bold;
+			font-size: 14px;
+        }
+	}
+
+	.subcategory-wrapper {
+		display: none;
+	}
+
+	.area-wrapper {
+		display: none;
+	}
+
+	ul.rules {
+		font-size: 14px;
+
+		li {
+			margin-top: 5px;
+
+			&:first-child {
+				margin-top: none;
+			}
+		}
+	}
+}

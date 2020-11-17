@@ -16,8 +16,8 @@
                             <div>
                                 <h5 style="font-weight: 800;">{{ product.title }}</h5>
                                 <small><span class="mr-4"><i
-                                            class="fas fa-map-marker-alt mr-1"></i>{{ product.address }}</span>
-                                    <span class="mr-4"><i class="far fa-clock mr-1"></i>{{ product.timestamp }}</span>
+                                            class="fas fa-map-marker-alt mr-1"></i>{{ product.location.name }}</span>
+                                    <span class="mr-4"><i class="far fa-clock mr-1"></i>{{ product.created_at }}</span>
                                     <span><i class="far fa-eye mr-1"></i>{{ product.views }}</span></small>
                             </div>
                             <div class="ml-auto">
@@ -29,8 +29,12 @@
                             </div>
                         </div>
                         <div class="thumbnail-wrapper">
-                            <img src="{% get_media_prefix %}{{ product.thumbnail }}" alt="{{ product.title }}"
+                            {% for photo in product.photo_set.all %}
+                            {% if photo.is_primary %}
+                            <img src="{% get_media_prefix %}{{ photo.file }}" alt="{{ product.title }}"
                                 class="img-fluid rounded">
+                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -52,7 +56,7 @@
                         <hr>
                         <div>
                             <h6 class="sub-heading">Description:</h6>
-                            <div class="description">{{ product.desc | safe }}</div>
+                            <div class="description">{{ product.description}}</div>
                         </div>
                     </div>
                 </div>
@@ -61,13 +65,15 @@
                 <div class="card my-3">
                     <div class="card-body text-center">
                         <div class="text-center">
-                            <img src="{% get_media_prefix %}{{ product.seller.avatar }}" alt="{{ product.seller.user.username }}">
+                            <img src="{% get_media_prefix %}{{ product.seller.profile.avatar }}"
+                                alt="{{ product.seller.username }}">
                         </div>
                         <small class="d-inline-block pt-1">For sale by</small>
-                        <h6 style="font-weight: 800; font-size: .95em;">{{ product.seller.user.first_name }} {{ product.seller.user.last_name }}</h6>
+                        <h6 style="font-weight: 800; font-size: .95em;">{{ product.seller.first_name }}
+                            {{ product.seller.last_name }}</h6>
                         <hr>
                         <button class="btn btn-danger btn-lg mr-1">
-                            <i class="fas fa-phone mr-2"></i>{{ product.seller.phone }}
+                            <i class="fas fa-phone mr-2"></i>{{ product.seller.profile.phone }}
                         </button>
                         <button class="btn btn-light btn-lg">View all ads</button>
                     </div>
