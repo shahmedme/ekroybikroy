@@ -50,7 +50,7 @@
               </h6>
               <ul class="list-unstyled m-0">
                 {% for sub_category in category.subcategory_set.all %}
-                <li><a href="#">{{ sub_category.name }}</a></li>
+                <li><a href="/posts/?sub_category={{ sub_category.id }}">{{ sub_category.name }}</a></li>
                 {% endfor %}
               </ul>
             </div>

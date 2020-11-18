@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import View
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from main.models import *
 from account.models import *
@@ -21,31 +22,80 @@ def home(request):
         return render(request, 'main/home.html', context)
 
 
-def category(request):
+def posts(request):
     if 'sub_category' in request.GET:
-        sub_category_id = request.GET['sub_category']
-        all_product = Product.objects.filter(sub_category_id=sub_category_id).order_by('-created_at')
+        id = request.GET.get('sub_category')
+        sub_category = SubCategory.objects.get(
+            id=id)
+        products = Product.objects.filter(
+            sub_category=sub_category).order_by('-created_at')
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 5)
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        snip = '&sub_category={}'.format(id)
+
         context = {
-            "products": all_product
+            'products': products,
+            'snip': snip
         }
+
         return render(request, 'main/posts.html', context)
 
     elif 'category' in request.GET:
-        category_id = request.GET['category']
-        category = Category.objects.get(id=category_id)
-        all_product = Product.objects.filter(
-            sub_category__category__id=category_id).order_by('-created_at')
+        id = request.GET.get('category')
+        category = Category.objects.get(id=id)
+        products = Product.objects.filter(
+            sub_category__category=category).order_by('-created_at')
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 5)
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        snip = '&category={}'.format(id)
+
         context = {
-            "products": all_product,
-            "category": category
+            'products': products,
+            'snip': snip
         }
+
         return render(request, 'main/posts.html', context)
 
+    elif 'userid' in request.GET:
+        user_id = request.GET['userid']
+        products = Product.objects.filter(seller_id=user_id)
+
+        return render(request, 'main/posts.html', {'products': products})
+
     else:
-        return HttpResponse('404 not found')
+        products = Product.objects.all().order_by('-created_at')
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 5)
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        return render(request, 'main/posts.html', {'products': products})
 
 
-def postDetails(request, id):
+def post_details(request, id):
     product = Product.objects.get(id=id)
     product.views = product.views + 1
     product.save()
@@ -108,17 +158,19 @@ def add_post(request):
             is_negotiable = True
 
         product = Product.objects.create(title=title, sub_category=subcategory, condition=condition, contact=phone, price=price, description=description,
-                        is_negotiable=is_negotiable, location=location, seller=request.user)
-        
+                                         is_negotiable=is_negotiable, location=location, seller=request.user)
+
         is_primary = True
         for photo in photos:
-            Photo.objects.create(file=photo, product=product, is_primary=is_primary)
+            Photo.objects.create(
+                file=photo, product=product, is_primary=is_primary)
             is_primary = False
         return redirect("/")
 
     else:
         categories = Category.objects.all()
-        locations = Location.objects.filter(Q(type="city") | Q(type="division")).distinct()
+        locations = Location.objects.filter(
+            Q(type="city") | Q(type="division")).distinct()
         context = {
             'categories': categories,
             'locations': locations,

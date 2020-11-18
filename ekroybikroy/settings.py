@@ -103,8 +103,8 @@ if not DEBUG:
     DEFAULT_FILE_STORAGE = 'ekroybikroy.storage.AzureMediaStorage'
     # STATICFILES_STORAGE = 'ekroybikroy.storage.AzureStaticStorage'
 
-    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')
-    AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')
+    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME', default="")
+    AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY', default="")
 
     # STATIC_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/'
     MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/'
