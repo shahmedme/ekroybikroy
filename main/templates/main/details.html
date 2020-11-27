@@ -65,8 +65,12 @@
                 <div class="card my-3">
                     <div class="card-body text-center">
                         <div class="text-center">
+                            {% if product.seller.profile.avatar %}
                             <img src="{% get_media_prefix %}{{ product.seller.profile.avatar }}"
                                 alt="{{ product.seller.username }}">
+                            {% else %}
+                            <img src="{% static '/img/default-user-avatar.jpg' %}" alt="">
+                            {% endif %}
                         </div>
                         <small class="d-inline-block pt-1">For sale by</small>
                         <h6 style="font-weight: 800; font-size: .95em;">{{ product.seller.first_name }}
