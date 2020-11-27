@@ -142,20 +142,15 @@ def action_handler(request):
 @login_required(login_url='/login')
 def add_post(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        price = request.POST["price"]
-        is_negotiable = False
-        negotiable_list = request.POST.getlist("checkbox")
-        condition = request.POST['condition']
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        price = request.POST.get("price")
+        is_negotiable = True if request.POST.get("negotiable") == 'on' else False
+        condition = request.POST.get('condition')
         photos = request.FILES.getlist('files')
-        subcategory = SubCategory.objects.get(id=request.POST["subcategory"])
-
-        phone = request.POST["phone"]
-        location = Location.objects.get(id=request.POST["area"])
-
-        if "checked" in negotiable_list:
-            is_negotiable = True
+        subcategory = SubCategory.objects.get(id=request.POST.get("subcategory"))
+        phone = request.POST.get("phone")
+        location = Location.objects.get(id=request.POST.get('area'))
 
         product = Product.objects.create(title=title, sub_category=subcategory, condition=condition, contact=phone, price=price, description=description,
                                          is_negotiable=is_negotiable, location=location, seller=request.user)

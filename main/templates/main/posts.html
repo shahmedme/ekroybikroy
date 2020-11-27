@@ -165,10 +165,10 @@
                                     {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="d-flex flex-column justify-content-between">
+                                <div class="d-flex flex-column justify-content-between w-100">
                                     <div>
                                         <h5 class="card-title">{{ product.title }}</h5>
-                                        <p style='font-size: .9em; color: hsl(0, 0%, 46%);'>{{ product.description }}
+                                        <p style='font-size: .9em; color: hsl(0, 0%, 46%);'>{{ product.description | truncatewords:20 }}
                                         </p>
                                         <small class='text-danger'
                                             style='font-weight: 700; font-size: 1.1em; color: hsl(0, 88%, 68%);'>Tk
@@ -176,11 +176,17 @@
                                     </div>
                                     <div>
                                         <hr />
-                                        <small><span class="mr-4"><i
+                                        <small>
+                                            <span class="mr-4" style="min-width: 80px; display: inline-block;"><i
                                                     class="fas fa-map-marker-alt mr-1"></i>{{ product.location }}</span>
                                             <span class="mr-4"><i
                                                     class="far fa-clock mr-1"></i>{{ product.created_at }}</span>
-                                            <span><i class="far fa-eye mr-1"></i>{{product.views}}</span></small>
+                                            <span class="mr-4"><i
+                                                    class="fas fa-cube mr-1"></i>{% if product.condition == 'new' %}New
+                                                {% else %} Used
+                                                {% endif %}</span>
+                                            <span><i class="far fa-eye mr-1"></i>{{product.views}}</span>
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -198,23 +204,27 @@
                     {% if products.has_other_pages %}
                     <ul class="pagination justify-content-center">
                         {% if products.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}{{ snip }}">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ products.previous_page_number }}{{ snip }}">&laquo;</a></li>
                         {% else %}
-                            <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+                        <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
                         {% endif %}
 
                         {% for i in products.paginator.page_range %}
-                            {% if products.number == i %}
-                                <li class="page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
-                            {% else %}
-                                <li class="page-item"><a href="{% url 'posts' %}?page={{ i }}{{ snip }}" class="page-link">{{ i }}</a></li>
-                            {% endif %}
+                        {% if products.number == i %}
+                        <li class="page-item"><span class="page-link">{{ i }} <span
+                                    class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li class="page-item"><a href="{% url 'posts' %}?page={{ i }}{{ snip }}"
+                                class="page-link">{{ i }}</a></li>
+                        {% endif %}
                         {% endfor %}
 
                         {% if products.has_next %}
-                            <li class="page-item"><a href="?page={{ products.next_page_number }}{{ snip }}" class="page-link">&raquo;</a></li>
+                        <li class="page-item"><a href="?page={{ products.next_page_number }}{{ snip }}"
+                                class="page-link">&raquo;</a></li>
                         {% else %}
-                            <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+                        <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
                         {% endif %}
                     </ul>
                     {% endif %}
