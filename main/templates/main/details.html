@@ -5,6 +5,15 @@
 <title>{{ product.title }} | {{ site_info.name }}</title>
 {% endblock %}
 
+
+{% block styles %}
+<style>
+    .btn-lg {
+        font-size: 19px;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="wrapper py-1 product-detail">
     <div class="container-fluid">
@@ -76,10 +85,17 @@
                         <h6 style="font-weight: 800; font-size: .95em;">{{ product.seller.first_name }}
                             {{ product.seller.last_name }}</h6>
                         <hr>
-                        <button class="btn btn-danger btn-lg mr-1">
-                            <i class="fas fa-phone mr-2"></i>{{ product.seller.profile.phone }}
-                        </button>
-                        <a href="/posts/?userid={{ product.seller.id }}" class="btn btn-light btn-lg">View all ads</a>
+                        <div class="d-flex justify-content-center">
+                            <div class="flex-1">
+                                <button class="btn btn-danger btn-lg mr-2">
+                                    <i class="fas fa-phone mr-2"></i>{{ product.contact }}
+                                </button>
+                            </div>
+                            <div class="flex-1">
+                                <a href="/posts/?userid={{ product.seller.id }}" class="btn btn-light btn-lg">View all
+                                    ads</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
