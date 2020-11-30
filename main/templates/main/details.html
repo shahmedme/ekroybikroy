@@ -21,15 +21,22 @@
             <div class="col-lg-8" id="details-body">
                 <div class="card my-3">
                     <div class="card-body">
-                        <div class="d-flex flex-row m-1">
+                        <div class="d-flex justify-content-between m-1">
                             <div>
                                 <h5 style="font-weight: 800;">{{ product.title }}</h5>
-                                <small><span class="mr-4"><i
+                                <small>
+                                    <span class="mr-4"><i
                                             class="fas fa-map-marker-alt mr-1"></i>{{ product.location.name }}</span>
                                     <span class="mr-4"><i class="far fa-clock mr-1"></i>{{ product.created_at }}</span>
-                                    <span><i class="far fa-eye mr-1"></i>{{ product.views }}</span></small>
+                                    <span><i class="far fa-eye mr-1"></i>{{ product.views }}</span>
+                                </small>
+                                <div class="d-flex align-items-center sharer">
+                                    <div class="mr-1">Share:</div>
+                                    <a href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="d-inline-block media"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="https://www.twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Checkout {{ product.title }} via {{ site_info.name }}" target="_blank" class="d-inline-block media"><i class="fab fa-twitter"></i></a>
+                                </div>
                             </div>
-                            <div class="ml-auto">
+                            <div class="pricing">
                                 <small class="text-red"
                                     style="font-weight: 700; font-size: 1.5em; color: hsl(0, 88%, 68%);">Tk
                                     {{ product.price }}</small>
