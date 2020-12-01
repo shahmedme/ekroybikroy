@@ -95,14 +95,18 @@ def posts(request):
         return render(request, 'main/posts.html', {'products': products})
 
 
-def post_details(request, id):
-    product = Product.objects.get(id=id)
-    product.views = product.views + 1
-    product.save()
-    context = {
-        'product': product
-    }
-    return render(request, 'main/details.html', context)
+def post_details(request, product_slug):
+    try:
+        product = Product.objects.get(slug=product_slug)
+        product.views = product.views + 1
+        product.save()
+
+        context = {
+            'product': product
+        }
+        return render(request, 'main/details.html', context)
+    except:
+        return redirect('/')
 
 
 # def c_signup(request):
