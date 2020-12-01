@@ -133,7 +133,7 @@
             <div class="col-lg-9 col-11" id="post-item">
                 {% if products %}
                 {% for product in products %}
-                <a href={% url 'post-details' product.id %}>
+                <a href={% url 'post-details' product.slug %}>
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="d-flex">
