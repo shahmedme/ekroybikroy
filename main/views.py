@@ -1,3 +1,4 @@
+from django.http.response import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import auth
@@ -97,14 +98,18 @@ def posts(request):
     return render(request, 'main/posts.html', context)
 
 
-def post_details(request, id):
-    product = Product.objects.get(id=id)
-    product.views = product.views + 1
-    product.save()
-    context = {
-        'product': product
-    }
-    return render(request, 'main/details.html', context)
+def post_details(request, product_slug):
+    try:
+        product = Product.objects.get(slug=product_slug)
+        product.views = product.views + 1
+        product.save()
+
+        context = {
+            'product': product
+        }
+        return render(request, 'main/details.html', context)
+    except Product.DoesNotExist:
+        raise Http404
 
 
 # def c_signup(request):
@@ -187,3 +192,11 @@ def setup_site(request):
                                 address=address, contact=contact)
 
         return redirect('/')
+
+
+def not_found(request):
+    return render(request, 'main/404.html')
+
+
+def handler404(request, exception):
+    return render(request, 'main/404.html', status=404)
