@@ -90,7 +90,7 @@
                                 </label>
                             </div>
                         </div>
-                        <hr class="m--1">
+                        {% comment %} <hr class="m--1">
                         <div class="my-3">
                             <h6 style="font-size: .95em;">Categories</h6>
                             <div class="custom-control mb-1">
@@ -108,44 +108,24 @@
                             <div class="custom-control mb-1">
                                 <a href='#'>Categories Test</a>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <hr class="m--1">
                         <div class="my-3">
                             <h6 style="font-size: .95em;">Division</h6>
+                            {% for division in divisions %}
                             <div class="custom-control mb-1">
-                                <a href='#'>All of Bangladesh</a>
+                                <a href='#'>{{ division.name }}</a>
                             </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
+                            {% endfor %}
                         </div>
                         <hr class="m--1">
                         <div class="my-3">
                             <h6 style="font-size: .95em;">City</h6>
+                            {% for city in cities %}
                             <div class="custom-control mb-1">
-                                <a href='#'>All of Bangladesh</a>
+                                <a href='#'>{{ city.name }}</a>
                             </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
-                            <div class="custom-control mb-1">
-                                <a href='#'>Categories Test</a>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -168,7 +148,8 @@
                                 <div class="d-flex flex-column justify-content-between w-100">
                                     <div>
                                         <h5 class="card-title">{{ product.title }}</h5>
-                                        <p style='font-size: .9em; color: hsl(0, 0%, 46%);'>{{ product.description | truncatewords:20 }}
+                                        <p style='font-size: .9em; color: hsl(0, 0%, 46%);'>
+                                            {{ product.description | truncatewords:20 }}
                                         </p>
                                         <small class='text-danger'
                                             style='font-weight: 700; font-size: 1.1em; color: hsl(0, 88%, 68%);'>Tk

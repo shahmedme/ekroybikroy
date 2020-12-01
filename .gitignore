@@ -10,3 +10,4 @@ env.py
 .env.*
 venv
 *.sqlite3
+tst

@@ -23,6 +23,14 @@ def home(request):
 
 
 def posts(request):
+    cities = Location.objects.filter(type='city')
+    divisions = Location.objects.filter(type='division')
+
+    context = {
+        'cities': cities,
+        'divisions': divisions
+    }
+
     if 'sub_category' in request.GET:
         id = request.GET.get('sub_category')
         sub_category = SubCategory.objects.get(
@@ -42,12 +50,8 @@ def posts(request):
 
         snip = '&sub_category={}'.format(id)
 
-        context = {
-            'products': products,
-            'snip': snip
-        }
-
-        return render(request, 'main/posts.html', context)
+        context['products'] = products
+        context['snip'] = snip
 
     elif 'category' in request.GET:
         id = request.GET.get('category')
@@ -67,18 +71,14 @@ def posts(request):
 
         snip = '&category={}'.format(id)
 
-        context = {
-            'products': products,
-            'snip': snip
-        }
-
-        return render(request, 'main/posts.html', context)
+        context['products'] = products
+        context['snip'] = snip
 
     elif 'userid' in request.GET:
         user_id = request.GET['userid']
         products = Product.objects.filter(seller_id=user_id)
 
-        return render(request, 'main/posts.html', {'products': products})
+        context['products'] = products
 
     else:
         products = Product.objects.all().order_by('-created_at')
@@ -92,7 +92,9 @@ def posts(request):
         except EmptyPage:
             products = paginator.page(paginator.num_pages)
 
-        return render(request, 'main/posts.html', {'products': products})
+        context['products'] = products
+
+    return render(request, 'main/posts.html', context)
 
 
 def post_details(request, product_slug):

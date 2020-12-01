@@ -4,11 +4,9 @@
 <section class="hero sp-80">
   <div class="container-fluid">
     <div class="hero-content-wrapper">
-      <h1 class="title">The largest marketplace in Bangladesh!</h1>
+      <h1 class="title">{{ site_info.tagline }}</h1>
       <p class="subtitle">
-        Buy and sell everything from used cars to mobile phones and computers,
-        <br />
-        or search for property, jobs and more in Bangladesh!
+        {{ site_info.sub_tagline }}
       </p>
       <div class="row">
         <div class="col-md-9 mx-auto mt-4">
@@ -38,8 +36,8 @@
     <h5 class="title">All Categories</h5>
     <div class="row no-gutters">
       {% for category in categories %}
-      <div class="col-md-4">
-        <div class="p-4 item">
+      <div class="col-md-4 mb-3">
+        <div class="p-4 h-100 item">
           <div class="row">
             <div class="col-2 img-wrapper">
               <img src="{% get_media_prefix %}{{ category.thumbnail }}" alt="clothings" class="img-fluid" />
@@ -50,7 +48,7 @@
               </h6>
               <ul class="list-unstyled m-0">
                 {% for sub_category in category.subcategory_set.all %}
-                <li><a href="/posts/?sub_category={{ sub_category.id }}">{{ sub_category.name }}</a></li>
+                <li><a href="/posts/?sub_category={{ sub_category.id }}" class="subc">{{ sub_category.name }}</a></li>
                 {% endfor %}
               </ul>
             </div>
@@ -67,11 +65,11 @@
     <div class="row align-items-center">
       <div class="col-md-6 text-center">
         <h4>Do you have something to sell?</h4>
-        <p>Post your ad on ekroybikroy.com</p>
+        <p>Post your ad on {{ site_info.name }}</p>
         <a href="{% url 'add-post' %}" class="btn ylw-post-btn">Post an ad now!</a>
       </div>
       <div class="col-md-6">
-        <img src="https://image.freepik.com/free-vector/add-cart-concept-illustration_114360-1445.jpg" alt=""
+        <img src="{% get_media_prefix %}{{ site_info.logo }}" alt="{{ site_info.name }}"
           class="img-fluid" style="width: 300px" />
       </div>
     </div>
