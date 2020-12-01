@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: [ staging ]
+    branches: [ master ]
   pull_request:
-    branches: [ staging ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -33,6 +33,6 @@ jobs:
       with:
         image: shakilahmmeed/ekroybikroy
         registry: docker.io
-        tag: staging
+        tag: latest
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
